@@ -1,0 +1,21 @@
+th, td {
+    text-align: center;
+}
+
+.frame-img {
+    margin: auto;
+    border: 1px solid #E6E9ED;
+    border-radius: 5%;
+    overflow: hidden;
+    position: relative;
+}
+
+.img-center {
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    max-width: 100%;
+}

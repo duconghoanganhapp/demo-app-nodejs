@@ -1,0 +1,81 @@
+<section class="content-header">
+    <div class="row mb-2">
+        <div class="col-sm-6">
+            <a href="/articles/add" class="btn btn-sm btn-primary">Add Articles</a>
+        </div>
+        <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item active">Articles</li>
+            </ol>
+        </div>
+    </div>
+</section>
+
+<section class="content">
+    <div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">List Articles</h3>
+            </div>
+            
+            <div class="card-body">
+                <% if(articles.length > 0) { %>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6"></div>
+                        <div class="col-sm-12 col-md-6">
+                            <div class="card-tools float-right">
+                                <form action="/user" method="GET">
+                                    <div class="input-group input-group-sm" style="width: 150px;">
+                                        <input type="text" name="keyword" class="form-control float-right" placeholder="Search"
+                                            value="<%= typeof keyword !== 'undefined' ? keyword : null %>">
+                                        <div class="input-group-append">
+                                            <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <table id="table-articles" class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Title</th>
+                                <th>Category</th>
+                                <th>Author</th>
+                                <th>Published</th>
+                                <th>Image</th>
+                                <th>Description</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <% for(let art of articles) { %>
+                                <tr>
+                                    <td><%= art.id %></td>
+                                    <td><%= art.title %></td>
+                                    <td><%= art.ArtCate.name %></td>
+                                    <td><%= art.User.firstName + ' ' + art.User.lastName %></td>
+                                    <td><%= art.published %></td>
+                                    <td>X</td>
+                                    <td><a href="/articles/desc/<%= art.id %>" class="btn btn-sm btn-success">Edit Description</a></td>
+                                    <td>
+                                        <a href="/articles/edit/<%= art.id %>" class="btn btn-sm btn-primary">Edit</a>
+                                        <button class="btn btn-sm btn-danger">Delete</button>
+                                    </td>
+                                </tr>
+                            <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                <% } else { %>
+                    <p class="text-center">Data is empty</p>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>
+</section>

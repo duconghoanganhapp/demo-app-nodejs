@@ -1,0 +1,216 @@
+<div class="card direct-chat direct-chat-primary">
+    <div class="card-header ui-sortable-handle" style="cursor: move;">
+      <h3 class="card-title">Direct Chat</h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+      <!-- Conversations are loaded here -->
+      <div class="direct-chat-messages" id="form-chat" style="height: 470px;">
+            <% Object.keys(listMessage).map( (objectKey, index) => { %>
+            <% if (listMessage[objectKey].idUser === user.id ) {%>
+              <div class='direct-chat-msg right'>
+                <div class='direct-chat-infos clearfix'>
+                  <span class='direct-chat-name float-right'><%= user.firstName + ' ' + user.lastName %></span>
+                  <span class='direct-chat-timestamp float-left'><%= listMessage[objectKey].createdAt%></span>
+                </div>
+                <!-- /.direct-chat-infos -->
+                <img class='direct-chat-img' src='/img/user3-128x128.jpg' alt='message user image'>
+                <!-- /.direct-chat-img -->
+                <div class='direct-chat-text'>
+                  <%- listMessage[objectKey].message %>
+                </div>
+                <!-- /.direct-chat-text -->
+              </div>
+            <%} else {%>
+              <div class='direct-chat-msg'>
+                <div class='direct-chat-infos clearfix'>
+                  <span class='direct-chat-name float-left'><%= listMessage[objectKey].idUser %></span>
+                  <span class='direct-chat-timestamp float-right'><%= listMessage[objectKey].createdAt%></span>
+                </div>
+                <!-- /.direct-chat-infos -->
+                <img class='direct-chat-img' src='/img/user1-128x128.jpg' alt='message user image'>
+                <!-- /.direct-chat-img -->
+                <div class='direct-chat-text'>
+                  <%- listMessage[objectKey].message %>
+                </div>
+                <!-- /.direct-chat-text -->
+              </div>
+            <% }});%>
+      </div>
+      <!--/.direct-chat-messages-->
+
+      <!-- Contacts are loaded here -->
+      <div class="direct-chat-contacts">
+        <ul class="contacts-list">
+          <li>
+            <a href="#">
+              <img class="contacts-list-img" src="/img/user1-128x128.jpg">
+
+              <div class="contacts-list-info">
+                <span class="contacts-list-name">
+                  Count Dracula
+                  <small class="contacts-list-date float-right">2/28/2015</small>
+                </span>
+                <span class="contacts-list-msg">How have you been? I was...</span>
+              </div>
+              <!-- /.contacts-list-info -->
+            </a>
+          </li>
+          <!-- End Contact Item -->
+          <li>
+            <a href="#">
+              <img class="contacts-list-img" src="/img/user7-128x128.jpg">
+
+              <div class="contacts-list-info">
+                <span class="contacts-list-name">
+                  Sarah Doe
+                  <small class="contacts-list-date float-right">2/23/2015</small>
+                </span>
+                <span class="contacts-list-msg">I will be waiting for...</span>
+              </div>
+              <!-- /.contacts-list-info -->
+            </a>
+          </li>
+          <!-- End Contact Item -->
+          <li>
+            <a href="#">
+              <img class="contacts-list-img" src="/img/user3-128x128.jpg">
+
+              <div class="contacts-list-info">
+                <span class="contacts-list-name">
+                  Nadia Jolie
+                  <small class="contacts-list-date float-right">2/20/2015</small>
+                </span>
+                <span class="contacts-list-msg">I'll call you back at...</span>
+              </div>
+              <!-- /.contacts-list-info -->
+            </a>
+          </li>
+          <!-- End Contact Item -->
+          <li>
+            <a href="#">
+              <img class="contacts-list-img" src="/img/user5-128x128.jpg">
+
+              <div class="contacts-list-info">
+                <span class="contacts-list-name">
+                  Nora S. Vans
+                  <small class="contacts-list-date float-right">2/10/2015</small>
+                </span>
+                <span class="contacts-list-msg">Where is your new...</span>
+              </div>
+              <!-- /.contacts-list-info -->
+            </a>
+          </li>
+          <!-- End Contact Item -->
+          <li>
+            <a href="#">
+              <img class="contacts-list-img" src="/img/user6-128x128.jpg">
+
+              <div class="contacts-list-info">
+                <span class="contacts-list-name">
+                  John K.
+                  <small class="contacts-list-date float-right">1/27/2015</small>
+                </span>
+                <span class="contacts-list-msg">Can I take a look at...</span>
+              </div>
+              <!-- /.contacts-list-info -->
+            </a>
+          </li>
+          <!-- End Contact Item -->
+          <li>
+            <a href="#"></a>
+              <img class="contacts-list-img" src="/img/user8-128x128.jpg">
+
+              <div class="contacts-list-info">
+                <span class="contacts-list-name">
+                  Kenneth M.
+                  <small class="contacts-list-date float-right">1/4/2015</small>
+                </span>
+                <span class="contacts-list-msg">Never mind I found...</span>
+              </div>
+              <!-- /.contacts-list-info -->
+            </a>
+          </li>
+          <!-- End Contact Item -->
+        </ul>
+        <!-- /.contacts-list -->
+      </div>
+      <!-- /.direct-chat-pane -->
+    </div>
+    <!-- /.card-body -->
+    <div class="card-footer">
+        <div class="input-group">
+          <input type="text" name="message" placeholder="Type Message ..." class="form-control input-message" id="emoji" required>
+        </div>
+    </div>
+   <input type="hidden" value="<%= user.id %>" id="idUser">
+    <!-- /.card-footer-->
+  </div>
+  <link rel="stylesheet" href="/css/emoji/emojionearea.min.css">
+<script type="text/javascript" src="/css/emoji/emojionearea.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    $('#form-chat').scrollTop($('#form-chat')[0].scrollHeight);
+    	$("#emoji").emojioneArea({
+        pickerPosition: "top",
+        filtersPosition: "bottom",
+        tones: false,
+        autocomplete: false,
+        inline: true,
+        hidePickerOnBlur: false,
+        searchPosition: "top",
+        events: {
+         	keyup: function (editor, event) {
+              if(event.which === 13){          
+                let data = {
+                message: editor.html(),
+                key: socket.id,
+                idUser : $('#idUser').val()
+                }
+                socket.emit('send', data);
+                editor[0].innerText = '';
+              }
+        	}
+    	}
+      });
+    var socket = io('http://192.168.0.135:3000');
+    socket.on('alert-all', (data) => {
+      console.log(data);
+      
+        if (data.idUser === $('#idUser').val()) {
+          $html = `<div class='direct-chat-msg right'>
+              <div class='direct-chat-infos clearfix'>
+                <span class='direct-chat-name float-right'>${data.idUser}</span>
+                <span class='direct-chat-timestamp float-left'>${data.createdAt}</span>
+              </div>
+              <!-- /.direct-chat-infos -->
+              <img class='direct-chat-img' src='/img/user3-128x128.jpg' alt='message user image'>
+              <!-- /.direct-chat-img -->
+              <div class='direct-chat-text'>
+                ${data.message}
+              </div>
+              <!-- /.direct-chat-text -->
+            </div>`;
+            $('#form-chat').append($html);
+        } else {
+          $html = `<div class='direct-chat-msg'>
+              <div class='direct-chat-infos clearfix'>
+                <span class='direct-chat-name float-left'>${data.idUser}</span>
+                <span class='direct-chat-timestamp float-right'>${data.createdAt}</span>
+              </div>
+              <!-- /.direct-chat-infos -->
+              <img class='direct-chat-img' src='/img/user1-128x128.jpg' alt='message user image'>
+              <!-- /.direct-chat-img -->
+              <div class='direct-chat-text'>
+               ${data.message}
+              </div>
+              <!-- /.direct-chat-text -->
+            </div>`;
+            $('#form-chat').append($html);
+        }
+        $('#form-chat').scrollTop($('#form-chat')[0].scrollHeight);
+    });
+    $(document).ready(() => {
+    
+    });
+  </script>

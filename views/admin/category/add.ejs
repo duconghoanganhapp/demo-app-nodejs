@@ -1,0 +1,13 @@
+<form role="form" action="/category/add" method="POST">
+    <div class="card-body">
+        <div class="form-group">
+        <label for="exampleInputEmail1">Name category</label>
+        <input type="text" class="form-control" id="name" name="name" placeholder="Enter name category">
+        <% if(typeof messages.name !== 'undefined') { %>
+            <span style="color: red;"><%= messages.name %></span>
+            <% } %>
+        </div>
+        <button type="submit" class="btn btn-primary">save</button>
+        </div>
+    </div>   
+</form>

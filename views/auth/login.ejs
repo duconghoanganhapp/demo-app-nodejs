@@ -1,0 +1,102 @@
+<div class="login-box">
+  <div class="login-logo">
+    <a href="../../index2.html"><b>LO</b>GIN</a>
+  </div>
+  <!-- /.login-logo -->
+  <div class="card">
+    <div class="card-body login-card-body">
+      <p class="login-box-msg">Sign in</p>
+        <% if( typeof messages.error !== 'undefined') {%>
+      <div class="alert alert-danger alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <h5><i class="icon fas fa-ban"></i> Alert!</h5>
+        <%= messages.error %>
+      </div>
+      <%}%>
+      <% if( typeof messages.success !== 'undefined') {%>
+        <div class="alert alert-success alert-dismissible">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+          <h5><i class="icon fas fa-check"></i> Alert!</h5>
+          <%= messages.success %>
+        </div>
+        <%}%>
+      <form method="POST">
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Email" name="email" value="<%= messages.emailValue %>">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-envelope"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3" style="color: red;">
+            <% if( typeof messages.email !== 'undefined') {%>
+              <%= messages.email %>
+              <%}%>
+        </div>
+        <div class="input-group mb-3">
+          <input type="password" class="form-control" placeholder="Password" name="password">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-lock"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3"style="color: red;">
+            <% if( typeof messages.password !== 'undefined') {%>
+              <%= messages.password %>
+              <%}%>
+        </div>
+        <div class="row">
+          <div class="col-8">
+            <div class="icheck-primary">
+              <input type="checkbox" id="remember">
+            </div>
+          </div>
+          <!-- /.col -->
+          <div class="col-4">
+            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+          </div>
+          <!-- /.col -->
+        </div>
+      </form>
+      <!-- /.social-auth-links -->
+      <br>
+      <a href="/auth/google" class="btn btn-block btn-danger">
+        <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
+      </a>
+      <a href="#" class="btn btn-block btn-primary">
+        <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
+      </a>
+      <p class="mb-1">
+        <a href="/auth/forgot">I forgot my password</a>
+      </p>
+      <p class="mb-0">
+        <a href="/auth/register" class="text-center">Register a new membership</a>
+      </p>
+    </div>
+    <!-- /.login-card-body -->
+  </div>
+</div>
+
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '{your-app-id}',
+      cookie     : true,
+      xfbml      : true,
+      version    : '{api-version}'
+    });
+      
+    FB.AppEvents.logPageView();   
+      
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "https://connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>

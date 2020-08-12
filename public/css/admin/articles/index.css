@@ -1,0 +1,14 @@
+.focus-file {
+    cursor: pointer;
+    margin-left: 5px;
+    vertical-align: top;
+}
+
+.show-file {
+    width: 550px;
+}
+
+#file-src {
+    width: 430px;
+    height: 300px;
+}

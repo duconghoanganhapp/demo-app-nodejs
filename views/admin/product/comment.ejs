@@ -1,0 +1,93 @@
+<div class="card direct-chat direct-chat-primary">
+    <div class="card-header ui-sortable-handle" style="cursor: move;">
+      <h3 class="card-title">Direct Chat product: <%= product.name %></h3>
+    </div>
+    <div class="card-body">
+      <div class="direct-chat-messages" id="form-show-messasge" style="height: 450px">
+        <% Object.keys(messages).map( (objectKey, index) => { %>
+            <% if(messages[objectKey].idUser !== user.id) { %>
+                <div class="direct-chat-msg">
+                    <div class="direct-chat-infos clearfix">
+                      <span class="direct-chat-name float-left"></span>
+                      <span class="direct-chat-timestamp float-right"><%= messages[objectKey].createdAt  %></span>
+                    </div>
+                    <div class="direct-chat-text">
+                        <%= messages[objectKey].message  %>
+                    </div>
+                  </div>
+            <%} else {%>
+
+        <div class="direct-chat-msg right">
+          <div class="direct-chat-infos clearfix">  
+            <span class="direct-chat-name float-right"><%= user.firstName + ' ' + user.lastName %></span>
+            <span class="direct-chat-timestamp float-left"><%= messages[objectKey].createdAt  %></span>
+          </div>
+          <div class="direct-chat-text">
+            <%= messages[objectKey].message  %>
+          </div>
+        </div>
+        <%}});%>
+      </div>
+      <div class="direct-chat-contacts">
+        <ul class="contacts-list">
+        </ul>
+      </div>
+    </div>
+    <div class="card-footer">
+        <div class="input-group">
+          <input type="text" name="message" placeholder="Type Message ..." class="form-control" id="input-mess" autocomplete="off">
+          <input type="hidden" value="<%= product.id %>" id="idProduct">
+          <input type="hidden" value="<%= user.id %>" id="idUser">
+          <span class="input-group-append">
+            <button type="submit" class="btn btn-primary" id="click-sub">Send</button>
+          </span>
+        </div>
+    </div>
+  </div>
+  <script src="/js/admin/formatdata.js"></script>
+  <script>
+      $(document).ready(function () {
+        $('#form-show-messasge').scrollTop($('#form-show-messasge')[0].scrollHeight);
+        $('#input-mess').keypress((e) => {
+          if (e.which === 13) {
+              sendMessage();
+          }
+        });
+            $('#click-sub').click(() => {
+                sendMessage();
+            });
+      });
+      function sendMessage() {
+        var mess = $('#input-mess').val();
+        var idProduct = $('#idProduct').val();
+        var idUser = $('#idUser').val();
+        $.ajax({
+            url: '/product/comment',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                message: mess,
+                idProduct: idProduct,
+                idUser: idUser
+            },
+            success: (result) => {
+                if (!result.data) {
+                    return false;
+                }
+                $("#input-mess").val("");
+                var data = result.data;
+                var html = ` <div class='direct-chat-msg right'>
+                    <div class='direct-chat-infos clearfix'>
+                        <span class='direct-chat-name float-right'>loading ...</span>
+                        <span class='direct-chat-timestamp float-left'>${data.createdAt}</span>
+                    </div>
+                    <div class='direct-chat-text'>
+                        ${data.message}
+                    </div>
+                    </div>`;
+                $('#form-show-messasge').append(html);
+                $('#form-show-messasge').scrollTop($('#form-show-messasge')[0].scrollHeight);
+            }
+        });
+      }
+  </script>

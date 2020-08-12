@@ -1,0 +1,103 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="float-left">
+                    <a class="btn btn-outline-primary m-1" href="/product/add">Create</a>
+                    <form action="/product/importCSV" method="post" id="formImportCSV" enctype="multipart/form-data"
+                          style="display: inline">
+                        <label for="import-csv" class="btn btn-outline-success m-1"
+                               style="cursor: pointer">Import CSV</label>
+                        <input type="file" id="import-csv" name="fileCSV" hidden>
+                    </form>
+                    <form action="/product/exportCSV" method="post" id="formExportCSV" enctype="multipart/form-data"
+                          style="display: inline">
+                        <button id="export-csv" name="fileCSV"
+                                style="cursor: pointer"
+                                class="btn btn-outline-info m-1">Export CSV</button>
+                    </form>
+                    <form action="/product/exportPDF" method="post" id="formExportPDF" enctype="multipart/form-data"
+                          style="display: inline">
+                        <button id="export-PDF" name="filePDF"
+                                style="cursor: pointer"
+                                class="btn btn-outline-info m-1">Export PDF</button>
+                    </form>
+                    <form action="/product/sendEmail" method="post" id="formSendEmail" enctype="multipart/form-data"
+                          style="display: inline">
+                        <button id="send-email" name=""
+                                style="cursor: pointer"
+                                class="btn btn-outline-info m-1">Send Email</button>
+                    </form>
+                </div>
+                <div class="card-tools">
+                    <form action="/product" method="GET">
+                        <div class="input-group input-group-sm" style="width: 150px;">
+                            <input type="text" name="keyword" class="form-control float-right" placeholder="Search"
+                                   value="<%= typeof keyword !== 'undefined' ? keyword : null %>">
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body table-responsive p-0" style="height: 600px;">
+                <table class="table table-head-fixed text-nowrap table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th width="10%">ID</th>
+                        <th width="15%">Image</th>
+                        <th width="12%">Name</th>
+                        <th width="10%">Amount</th>
+                        <th width="10%">Price</th>
+                        <th width="15%">Content</th>
+                        <th width="13%">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <% products.forEach(function (product) { %>
+                        <tr id="row_<%= product.id %>">
+                            <td><%= product.id %></td>
+                            <td>
+                                <div class="frame-img" style="width: 80px; height: 80px">
+                                    <img src="../uploads/product/<%= product.img %>" class="img-center" alt="">
+                                </div>
+                            </td>
+                            <td><%= product.name %></td>
+                            <td><%= product.amount %></td>
+                            <td><%= product.price %></td>
+                            <td><%= product.content %></td>
+                            <td>
+                                <button type="button"
+                                        class="btn btn-block btn-outline-info btn-lg btn-product-del"
+                                        name="btn-delete"
+                                        style="margin-bottom: 5px;">Delete
+                                </button>
+                                <a href="/product/edit/<%= product.id %>">
+                                    <button type="button" class="btn btn-block btn-outline-warning btn-lg">Edit</button>
+                                </a>
+                                <br>
+                                <a href="/product/comment/<%= product.id %>">
+                                    <button type="button" class="btn btn-block btn-outline-warning btn-lg">Comment
+                                    </button>
+                                </a>
+                            </td>
+                        </tr>
+                    <% }) %>
+                    </tbody>
+                </table>
+                <nav class="float-right">
+                    <%- pagination ? pagination : '' %>
+                </nav>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+</div>
+
+<input type="hidden" value="<% if (typeof messages.product !== undefined) { %><%= messages.product %><% } %>"
+       id="infoMessage">
+<link rel="stylesheet" href="/css/admin/product/index.css"/>
+<script type="module" src="/js/admin/product/index.js"></script>

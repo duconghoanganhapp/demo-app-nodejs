@@ -1,0 +1,10 @@
+<!--Error messages-->
+<% if (typeof errors !== "undefined") { %>
+    <div class="alert alert-danger alert-dismissable" style="margin: 1rem">
+        <a class="panel-close close" data-dismiss="alert">×</a>
+        <% for(var i = 0; i < errors.length; i++) { %>
+            <%= errors[i] %>
+            <br>
+        <% } %>
+    </div>
+<% } %>
