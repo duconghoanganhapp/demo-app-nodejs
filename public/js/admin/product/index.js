@@ -22,3 +22,16 @@ $(document).ready(function(){
         this.form.submit();
     })
 });
+
+new Vue({
+    el: '#obj',
+    data: {
+        data_demo: 'Welcome VueJS,..'
+    },
+    methods: {
+        dataDemoChange: function (event) {
+            this.data_demo = event.target.value;
+        }
+    }
+
+});

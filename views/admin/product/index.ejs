@@ -92,10 +92,17 @@
                 </nav>
             </div>
             <!-- /.card-body -->
+            <div class="card-body table-responsive p-0" style="height: 600px;">
+                <div id="obj">
+                    <input type="text" v-on:input="dataDemoChange">
+                    <p>{{ data_demo }}</p>
+                </div>
+            </div>
         </div>
         <!-- /.card -->
     </div>
 </div>
+
 
 <input type="hidden" value="<% if (typeof messages.product !== undefined) { %><%= messages.product %><% } %>"
        id="infoMessage">
