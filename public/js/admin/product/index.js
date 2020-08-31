@@ -26,11 +26,31 @@ $(document).ready(function(){
 new Vue({
     el: '#obj',
     data: {
-        data_demo: 'Welcome VueJS,..'
+        title: 'Welcome articles,..',
+        body: 'text_Body',
+        link: 'http://127.0.0.1:3000/articles',
+        product: '<a href="http://127.0.0.1:3000/product">Go to Product</a>',
+        quantity: 0,
+        x: 0,
+        y: 0
     },
     methods: {
-        dataDemoChange: function (event) {
+        changeTitle: function (event) {
             this.data_demo = event.target.value;
+        },
+        showDataVueJS: function () {
+            return this.body;
+        },
+        updateTitle: function () {
+            this.title = 'Redirect Acticles!';
+            return this.title;
+        },
+        addQuantity: function () {
+            this.quantity ++;
+        },
+        locationMouse: function (event) {
+            this.x = event.x;
+            this.y = event.y;
         }
     }
 

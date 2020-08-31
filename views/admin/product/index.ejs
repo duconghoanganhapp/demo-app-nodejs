@@ -92,10 +92,20 @@
                 </nav>
             </div>
             <!-- /.card-body -->
-            <div class="card-body table-responsive p-0" style="height: 600px;">
+            <div class="card-body table-responsive p-0" style="height: 600px; margin-left: 50px">
                 <div id="obj">
-                    <input type="text" v-on:input="dataDemoChange">
-                    <p>{{ data_demo }}</p>
+                    <!-- V-ON-->
+                    <input type="text" v-on:input="changeTitle">
+                    <p>{{ showDataVueJS() }}</p>
+                    <a v-bind:href="link">{{ title }}</a>
+                    <p v-once>{{ title }} - {{ updateTitle() }}</p>
+                    <p v-html="product"></p>
+                    <button v-on:click="addQuantity">Add quatity</button>
+                    <div>
+                        <label for="quantityTest" style="float: left; margin: 0 20px">Quantity</label>
+                        <p id="quantityTest">{{ quantity }}</p>
+                    </div>
+                    <p v-on:mousemove="locationMouse">locationMouse: x = {{x}}/ y = {{y}}</p>
                 </div>
             </div>
         </div>
