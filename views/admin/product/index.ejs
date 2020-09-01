@@ -92,20 +92,32 @@
                 </nav>
             </div>
             <!-- /.card-body -->
-            <div class="card-body table-responsive p-0" style="height: 600px; margin-left: 50px">
-                <div id="obj">
-                    <!-- V-ON-->
+            <div class="card-body table-responsive p-0" style="height: 600px; margin-left: 50px; width: 500px">
+                <div id="obj" v-on:mouseover="locationMouse" style=" border: black solid">
+                    <!--V-ON input-->
                     <input type="text" v-on:input="changeTitle">
                     <p>{{ showDataVueJS() }}</p>
+                    <!--Binding href-->
                     <a v-bind:href="link">{{ title }}</a>
                     <p v-once>{{ title }} - {{ updateTitle() }}</p>
+                    <!--Eject HTML data-->
                     <p v-html="product"></p>
-                    <button v-on:click="addQuantity">Add quatity</button>
+
+                    <!--EVENT HANDLING-->
+                    <!--V-ON click event-->
+                    <button v-on:click="addQuantity">Add quantity</button>
                     <div>
                         <label for="quantityTest" style="float: left; margin: 0 20px">Quantity</label>
                         <p id="quantityTest">{{ quantity }}</p>
                     </div>
-                    <p v-on:mousemove="locationMouse">locationMouse: x = {{x}}/ y = {{y}}</p>
+                    <!--When mouse move in Div area, show location mouse follow x and y-->
+                    <p>LocationMouse: x = {{x}}/ y = {{y}}</p>
+                    <!--Stop location mouse-->
+                    <div style="width: 200px; height: 50px; border: solid blue" v-on:mouseover="stopLocationMouse">Stop mouse area</div>
+
+                    <!--Key Modifies-->
+                    <span>Enter to show text of input</span>
+                    <input type="text" v-on:keyup.enter="alertKeyModifies" v-model="keyModifiesData">
                 </div>
             </div>
         </div>

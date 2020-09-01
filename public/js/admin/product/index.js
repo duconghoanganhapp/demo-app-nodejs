@@ -32,7 +32,8 @@ new Vue({
         product: '<a href="http://127.0.0.1:3000/product">Go to Product</a>',
         quantity: 0,
         x: 0,
-        y: 0
+        y: 0,
+        keyModifiesData: ''
     },
     methods: {
         changeTitle: function (event) {
@@ -51,7 +52,12 @@ new Vue({
         locationMouse: function (event) {
             this.x = event.x;
             this.y = event.y;
+        },
+        stopLocationMouse: function (event) {
+            event.stopPropagation();
+        },
+        alertKeyModifies: function () {
+            alert(this.keyModifiesData);
         }
     }
-
 });
