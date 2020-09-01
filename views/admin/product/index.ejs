@@ -93,7 +93,7 @@
             </div>
             <!-- /.card-body -->
             <div class="card-body table-responsive p-0" style="height: 600px; margin-left: 50px; width: 500px">
-                <div id="obj" v-on:mouseover="locationMouse" style=" border: black solid">
+                <div id="app" v-on:mouseover="locationMouse" style=" border: black solid">
                     <!--V-ON input-->
                     <input type="text" v-on:input="changeTitle">
                     <p>{{ showDataVueJS() }}</p>
@@ -106,18 +106,35 @@
                     <!--EVENT HANDLING-->
                     <!--V-ON click event-->
                     <button v-on:click="addQuantity">Add quantity</button>
+                    <!--Javascript directly on Vue JS-->
+                    <button v-on:click="quantity++">Add quantity Javascript directly on Vue JS</button>
                     <div>
                         <label for="quantityTest" style="float: left; margin: 0 20px">Quantity</label>
                         <p id="quantityTest">{{ quantity }}</p>
+                        <p>{{ quantity > 10 ? 'Quantity more than 10' : 'Quantity less than 11' }}</p>
                     </div>
                     <!--When mouse move in Div area, show location mouse follow x and y-->
                     <p>LocationMouse: x = {{x}}/ y = {{y}}</p>
                     <!--Stop location mouse-->
                     <div style="width: 200px; height: 50px; border: solid blue" v-on:mouseover="stopLocationMouse">Stop mouse area</div>
 
-                    <!--Key Modifies-->
+                    <!--Key Modifies - binding value (v-model-->
                     <span>Enter to show text of input</span>
                     <input type="text" v-on:keyup.enter="alertKeyModifies" v-model="keyModifiesData">
+
+                    <!--Computed - call separate function-->
+                    <div>
+                        <label for="quantityA" style="float: left; margin: 0 20px">QuantityA:</label>
+                        <p id="quantityA">{{ addQuantityA }}</p>
+                        <label for="quantityB" style="float: left; margin: 0 20px">QuantityB:</label>
+                        <p id="quantityB">{{ addQuantityB }}</p>
+                    </div>
+                    <button v-on:click="quantityA++">Add A</button>
+                    <button v-on:click="quantityB++">Add B</button>
+
+
+                    <!--watch - know a value was changed-->
+                    <p>{{ mark }}</p>
                 </div>
             </div>
         </div>

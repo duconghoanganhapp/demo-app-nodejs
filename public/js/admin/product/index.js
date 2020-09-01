@@ -23,17 +23,30 @@ $(document).ready(function(){
     })
 });
 
-new Vue({
-    el: '#obj',
+var app = new Vue({
+    el: '#app',
     data: {
         title: 'Welcome articles,..',
-        body: 'text_Body',
+        body: 'Text_Body',
         link: 'http://127.0.0.1:3000/articles',
         product: '<a href="http://127.0.0.1:3000/product">Go to Product</a>',
         quantity: 0,
         x: 0,
         y: 0,
-        keyModifiesData: ''
+        keyModifiesData: '',
+        quantityA: 0,
+        quantityB: 0,
+        mark: 'Mark is 7 points'
+    },
+    computed: {
+        addQuantityA: function () {
+            console.log('addA');
+            return this.quantityA;
+        },
+        addQuantityB: function () {
+            console.log('addB');
+            return this.quantityB;
+        },
     },
     methods: {
         changeTitle: function (event) {
@@ -59,5 +72,16 @@ new Vue({
         alertKeyModifies: function () {
             alert(this.keyModifiesData);
         }
+    },
+    watch: {
+        mark: function () {
+            console.log("------------START CONSOLE LOG WATCH------------");
+            console.log('Mark was changed');
+            console.log("------------END CONSOLE LOG------------");
+        }
     }
+
 });
+
+app.mark = 'Mark is 9 points';
+console.log(app.mark);
