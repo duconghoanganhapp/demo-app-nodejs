@@ -36,7 +36,16 @@ var app = new Vue({
         keyModifiesData: '',
         quantityA: 0,
         quantityB: 0,
-        mark: 'Mark is 7 points'
+        mark: 'Mark is 7 points',
+        seen: false,
+        isActive: true,
+        isActiveSh: true,
+        categories: [
+            { name: 'book' },
+            { name: 'pen' },
+            { name: 'rule' },
+        ],
+        msg: 'msg orig'
     },
     computed: {
         addQuantityA: function () {
@@ -71,6 +80,17 @@ var app = new Vue({
         },
         alertKeyModifies: function () {
             alert(this.keyModifiesData);
+        },
+        toggleActive: function() {
+            if(this.isActive == true) {
+                this.isActive = false
+            }
+            else {
+                this.isActive = true
+            }
+        },
+        changeMsg: function () {
+            this.msg = 'change msg!!!';
         }
     },
     watch: {

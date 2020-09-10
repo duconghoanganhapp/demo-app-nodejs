@@ -132,9 +132,48 @@
                     <button v-on:click="quantityA++">Add A</button>
                     <button v-on:click="quantityB++">Add B</button>
 
-
                     <!--watch - know a value was changed-->
                     <p>{{ mark }}</p>
+
+                    <!--v-if, else-->
+                    <p v-if="seen">Display v-if</p>
+                    <template>
+                        <div class="conditional-rendering">
+                            <div class="block-1" v-if="isActive == false">
+                                This is block 1
+                            </div>
+                            <div class="block-2" v-else>
+                                This is block 2
+                            </div>
+                            <div>
+                                <button @click="toggleActive">ButtonIfElse</button>
+                            </div>
+                        </div>
+                    </template>
+
+                    <!--v-show-->
+                    <div class="conditional-rendering">
+                        <div class="block-1" v-show="isActiveSh == false">
+                            This is block Show 1
+                        </div>
+                        <div class="block-2" v-show="isActiveSh == true">
+                            This is block Show 2
+                        </div>
+                        <div>
+                            <button @click="isActiveSh = !isActiveSh">ButtonShow</button>
+                        </div>
+                    </div>
+
+                    <!--v-for-->
+                    <div class="list-rendering">
+                        <ul>
+                            <li v-for="category in categories">{{ category.name }}</li>
+                        </ul>
+                    </div>
+
+                    <!--v-once-->
+                    <span v-once>This will never change: {{ msg }}</span>
+                    <button v-on:click="changeMsg()">changeMsg</button>
                 </div>
             </div>
         </div>
