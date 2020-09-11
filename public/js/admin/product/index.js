@@ -45,7 +45,11 @@ var app = new Vue({
             { name: 'pen' },
             { name: 'rule' },
         ],
-        msg: 'msg orig'
+        msg: 'msg orig',
+        processRed: false,
+        color: 'yellow',
+        width: 50,
+        height: 40,
     },
     computed: {
         addQuantityA: function () {
@@ -56,6 +60,19 @@ var app = new Vue({
             console.log('addB');
             return this.quantityB;
         },
+        divClasses: function () {
+            return {
+                red: this.processRed,
+                blue: !this.processRed
+            }
+        },
+        cusStyle: function () {
+            return {
+                backgroundColor: this.color,
+                width: this.width + 'px',
+                height: this.height + 'px'
+            }
+        }
     },
     methods: {
         changeTitle: function (event) {
@@ -91,7 +108,7 @@ var app = new Vue({
         },
         changeMsg: function () {
             this.msg = 'change msg!!!';
-        }
+        },
     },
     watch: {
         mark: function () {
