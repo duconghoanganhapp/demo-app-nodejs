@@ -43,13 +43,14 @@ var app = new Vue({
         categories: [
             { name: 'book' },
             { name: 'pen' },
-            { name: 'rule' },
+            { name: 'ruler' },
         ],
         msg: 'msg orig',
         processRed: false,
         color: 'yellow',
         width: 50,
         height: 40,
+        menus: ['Salad', 'Chicken', 'Fish']
     },
     computed: {
         addQuantityA: function () {

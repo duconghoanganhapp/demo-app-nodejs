@@ -170,6 +170,11 @@
                             <li v-for="category in categories">{{ category.name }}</li>
                         </ul>
                     </div>
+                     <!--alternative v-for-->
+                     <template v-for="(category, index) in categories">
+                         <h3>{{ category.name }}</h3>
+                         <p>{{ index }}</p>
+                     </template>
 
                     <!--v-once-->
                     <span v-once>This will never change: {{ msg }}</span>
@@ -190,6 +195,13 @@
                         <input type="text" v-model="color">
                         <input type="text" v-model="width">
                         <input type="text" v-model="height">
+                    </div>
+
+                    <div>
+                        <ul>
+                            <li v-for="(menu, index) in menus">{{ menu }} with index is: {{ index }}</li>
+                        </ul>
+                        <button @click="menus.push('Item')"> Add a menu</button>
                     </div>
 
                 </div>

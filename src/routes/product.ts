@@ -38,6 +38,7 @@ let importCSV = multer({
 });
 
 router.get('/', productController.index);
+router.get('/interactive', productController.interactive);
 router.get('/edit/:id', productController.showEditProduct);
 router.post('/edit/:id', uploadManyFiles.single('img'), rulesProduct.edit, productController.editProduct);
 router.get('/add', productController.showAddProduct);

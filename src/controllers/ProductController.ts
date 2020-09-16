@@ -18,6 +18,35 @@ import axios from "axios";
 import * as csv from "fast-csv";
 
 const ENTITY_NAME = 'product';
+const messageBody = {
+    "username": "Mr.Anh",
+    "channel": "qa_test", // Name of channel
+    "text": "New Question <!channel> <@hpeinar>", // <> are used for linking
+    "icon_emoji": ":moneybag:",
+    "attachments": [ // attachments, here we also use long attachment to use more space
+        {
+            "color": "#2eb886",
+            "fields": [
+                {
+                    "title": "Where is PHP code executed?",
+                    "value": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ... of model sentence structures, to generate Lorem Ipsum which looks reasonable.",
+                    "short": false // marks this to be wide attachment
+                }
+            ],
+            "actions": [ // Slack supports many kind of different types, we'll use buttons here
+                {
+                    "type": "button",
+                    "text": "Answer this question", // text on the button
+                    "url": "http://example.com" // url the button will take the user if clicked
+                }
+            ]
+        }
+    ]
+};
+const https = require('https');
+
+const yourWebHookURL = 'https://hooks.slack.com/services/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'; // PUT YOUR WEBHOOK URL HERE
+
 /**
  * Show product list
  * @param req
@@ -49,6 +78,76 @@ export const index = async (req: Request, res: Response) => {
     });
 };
 
+/**
+ * Show interactive
+ * @param req
+ * @param res
+ */
+export const interactive = async (req: Request, res: Response) => {
+    if (!yourWebHookURL) {
+        console.error('Please fill in your Webhook URL');
+    }
+
+    console.log('Sending slack message');
+    try {
+        const slackResponse = await sendSlackMessage(yourWebHookURL, messageBody);
+        console.log('Message response', slackResponse);
+    } catch (e) {
+        console.error('There was a error with the request', e);
+    }
+
+    return res.render('admin/product/interactive', {});
+};
+/**
+ * Handles the actual sending request.
+ * We're turning the https.request into a promise here for convenience
+ * @param webhookURL
+ * @param messageBody
+ * @return {Promise}
+ */
+function sendSlackMessage (webhookURL, messageBody) {
+    // make sure the incoming message body can be parsed into valid JSON
+    try {
+        messageBody = JSON.stringify(messageBody);
+    } catch (e) {
+        // throw new Error('Failed to stringify messageBody', e);
+    }
+
+    // Promisify the https.request
+    return new Promise((resolve, reject) => {
+        // general request options, we defined that it's a POST request and content is JSON
+        const requestOptions = {
+            method: 'POST',
+            header: {
+                'Content-Type': 'application/json'
+            }
+        };
+
+        // actual request
+        const req = https.request(webhookURL, requestOptions, (res) => {
+            let response = '';
+
+
+            res.on('data', (d) => {
+                response += d;
+            });
+
+            // response finished, resolve the promise with data
+            res.on('end', () => {
+                resolve(response);
+            })
+        });
+
+        // there was an error, reject the promise
+        req.on('error', (e) => {
+            reject(e);
+        });
+
+        // send our message body (was parsed to JSON beforehand)
+        req.write(messageBody);
+        req.end();
+    });
+}
 /**
  * Show product edit page
  * @param req
