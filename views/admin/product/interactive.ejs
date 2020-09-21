@@ -29,9 +29,9 @@
     <section class="row controls" v-else="">
         <div class="small-12 columns">
             <button id="attack" class="btn" @click="action">ACTION</button>
-            <button id="special-attack" class="btn">SPECIAL ACTION</button>
-            <button id="heal" class="btn">RESERVE</button>
-            <button id="give-up" class="btn">GIVE UP</button>
+            <button id="special-attack" @click="specificAction" class="btn">SPECIAL ACTION</button>
+            <button id="heal" class="btn" @click="reserve">RESERVE</button>
+            <button id="give-up" class="btn" @click="giveUp">GIVE UP</button>
         </div>
     </section>
     <section class="row log">

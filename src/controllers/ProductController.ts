@@ -18,34 +18,16 @@ import axios from "axios";
 import * as csv from "fast-csv";
 
 const ENTITY_NAME = 'product';
-const messageBody = {
-    "username": "Mr.Anh",
-    "channel": "qa_test", // Name of channel
-    "text": "New Question <!channel> <@hpeinar>", // <> are used for linking
-    "icon_emoji": ":moneybag:",
-    "attachments": [ // attachments, here we also use long attachment to use more space
-        {
-            "color": "#2eb886",
-            "fields": [
-                {
-                    "title": "Where is PHP code executed?",
-                    "value": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ... of model sentence structures, to generate Lorem Ipsum which looks reasonable.",
-                    "short": false // marks this to be wide attachment
-                }
-            ],
-            "actions": [ // Slack supports many kind of different types, we'll use buttons here
-                {
-                    "type": "button",
-                    "text": "Answer this question", // text on the button
-                    "url": "http://example.com" // url the button will take the user if clicked
-                }
-            ]
-        }
-    ]
-};
 const https = require('https');
+import moment from 'moment-timezone'
+//Slack app
+const {WebClient, ErrorCode} = require('@slack/web-api');
+// Read a token from the environment variables
+// const token = 'xoxp-954077817267-1359935497254-1372369719381-9806cacb2f4d90831c217f4feb166611'; // OAuth Access Token
+const token = 'xoxb-954077817267-1368728135734-uN8nErNeSVCxJedRGRzxDGTO'; // Bot User OAuth Access Token
 
-const yourWebHookURL = 'https://hooks.slack.com/services/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'; // PUT YOUR WEBHOOK URL HERE
+// Initialize
+const web = new WebClient(token);
 
 /**
  * Show product list
@@ -79,75 +61,87 @@ export const index = async (req: Request, res: Response) => {
 };
 
 /**
+ * Show slackBot
+ * @param req
+ * @param res
+ */
+export const slackBot = async (req: Request, res: Response) => {
+    try {
+
+        //Channel create
+        // const resultCreate = await web.conversations.create({
+        //     // The token you used to initialize your app is stored in the `context` object
+        //     token: token,
+        //     // The name of the conversation
+        //     name: "qa15"
+        // });
+
+        // if (resultCreate['ok'] && !isEmpty(resultCreate['channel']['id'])) {
+        //     const conversationId = resultCreate['channel']['id'];
+        //     const resultJoin = await web.conversations.join({
+        //         // The token you used to initialize your app is stored in the `context` object
+        //         token: token,
+        //         // The name of the conversation
+        //         channel: conversationId
+        //     });
+        //     // console.log(resultJoin);
+        //
+        //     if (resultJoin['ok']) {
+        //         const username = 'Gia Thanh';
+        //     // Post a message to the channel, and await the result.
+        //         // Find more arguments and details of the response: https://api.slack.com/methods/chat.postMessage
+        //         const result = await web.chat.postMessage({
+        //             text: `${username} Just create a question`,
+        //             channel: conversationId,
+        //         });
+        //
+        //         // The result contains an identifier for the message, `ts`.
+        //         console.log(`Successfully send message ${result.ts} in conversation ${conversationId}`);
+        //     }
+        //
+        // }
+        let conversationId = 'C01BGFVPP4Y';
+        let user = {
+            'firstName': 'Anh',
+            'lastName': 'Du Cong Hoang'
+        };
+        let qa = {
+            'createdAt': moment(Date.now()).format('DD-MM-YYYY hh:mm:ss A')
+        };
+
+        // Post a message to the channel, and await the result.
+        // Find more arguments and details of the response: https://api.slack.com/methods/chat.postMessage
+        const result = await web.chat.postMessage({
+            text: `${qa.createdAt} ${user.lastName} ${user.firstName} just create a question`,
+            channel: conversationId,
+        });
+
+        // The result contains an identifier for the message, `ts`.
+        console.log(`Successfully send message ${result.ts} in conversation ${conversationId}`);
+
+    } catch (error) {
+        // Check the code property, and when its a PlatformError, log the whole response.
+        if (error.code === ErrorCode.PlatformError) {
+            console.log(error.data);
+        } else {
+            // Some other error, oh no!
+            console.log('Well, that was unexpected.');
+        }
+    }
+    return res.status(200).json({
+        status: true
+    });
+};
+
+/**
  * Show interactive
  * @param req
  * @param res
  */
-export const interactive = async (req: Request, res: Response) => {
-    if (!yourWebHookURL) {
-        console.error('Please fill in your Webhook URL');
-    }
-
-    console.log('Sending slack message');
-    try {
-        const slackResponse = await sendSlackMessage(yourWebHookURL, messageBody);
-        console.log('Message response', slackResponse);
-    } catch (e) {
-        console.error('There was a error with the request', e);
-    }
-
+export const interactive = (req: Request, res: Response) => {
     return res.render('admin/product/interactive', {});
 };
-/**
- * Handles the actual sending request.
- * We're turning the https.request into a promise here for convenience
- * @param webhookURL
- * @param messageBody
- * @return {Promise}
- */
-function sendSlackMessage (webhookURL, messageBody) {
-    // make sure the incoming message body can be parsed into valid JSON
-    try {
-        messageBody = JSON.stringify(messageBody);
-    } catch (e) {
-        // throw new Error('Failed to stringify messageBody', e);
-    }
 
-    // Promisify the https.request
-    return new Promise((resolve, reject) => {
-        // general request options, we defined that it's a POST request and content is JSON
-        const requestOptions = {
-            method: 'POST',
-            header: {
-                'Content-Type': 'application/json'
-            }
-        };
-
-        // actual request
-        const req = https.request(webhookURL, requestOptions, (res) => {
-            let response = '';
-
-
-            res.on('data', (d) => {
-                response += d;
-            });
-
-            // response finished, resolve the promise with data
-            res.on('end', () => {
-                resolve(response);
-            })
-        });
-
-        // there was an error, reject the promise
-        req.on('error', (e) => {
-            reject(e);
-        });
-
-        // send our message body (was parsed to JSON beforehand)
-        req.write(messageBody);
-        req.end();
-    });
-}
 /**
  * Show product edit page
  * @param req
@@ -483,9 +477,9 @@ export const exportPDF = (req: Request, res: Response, next: NextFunction) => {
     var fs = require('fs');
     var pdf = require('html-pdf');
     var html = fs.readFileSync('views/admin/product/pdf.ejs', 'utf8');
-    var options = { format: 'Letter' };
+    var options = {format: 'Letter'};
 
-    pdf.create(html, options).toFile('/public/uploads/product/businesscard.pdf', function(err, res) {
+    pdf.create(html, options).toFile('/public/uploads/product/businesscard.pdf', function (err, res) {
         if (err) {
             return res.redirect('/Product');
         }
