@@ -50,7 +50,9 @@ var app = new Vue({
         color: 'yellow',
         width: 50,
         height: 40,
-        menus: ['Salad', 'Chicken', 'Fish']
+        menus: ['Salad', 'Chicken', 'Fish'],
+        showParagraph: false,
+        sentence: 'First sentence'
     },
     computed: {
         addQuantityA: function () {
@@ -110,15 +112,35 @@ var app = new Vue({
         changeMsg: function () {
             this.msg = 'change msg!!!';
         },
+        showParagraphAction: function () {
+            this.showParagraph = true;
+            this.updateSentence('Why do we use it?');
+            app2.sentence = 'Change app2 sentence!'
+        },
+        updateSentence: function (text) {
+            this.sentence = text;
+        }
     },
     watch: {
         mark: function () {
             console.log("------------START CONSOLE LOG WATCH------------");
             console.log('Mark was changed');
             console.log("------------END CONSOLE LOG------------");
+        },
+        sentence: function (value) {
+            alert('Sentence will be changed to ' + value);
         }
     }
 
+
+
+});
+
+var app2 = new Vue({
+    el: '#app2',
+    data: {
+        sentence: 'Second sentence!',
+    }
 });
 
 app.mark = 'Mark is 9 points';

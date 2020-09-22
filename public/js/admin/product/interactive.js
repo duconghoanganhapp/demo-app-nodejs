@@ -4,7 +4,7 @@ var app = new Vue({
         user1: 0,
         user2: 0,
         running: false,
-        turns: []
+        turns: [],
     },
     computed: {
     },
@@ -25,7 +25,7 @@ var app = new Vue({
 
             this.turns.unshift({
                 isPlayer: false,
-                textLog: 'User1 action user2' + user2ProAc,
+                textLog: 'User1 action ' + user2ProAc,
             })
         },
         specificAction: function() {

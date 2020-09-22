@@ -23,8 +23,8 @@ import moment from 'moment-timezone'
 //Slack app
 const {WebClient, ErrorCode} = require('@slack/web-api');
 // Read a token from the environment variables
-// const token = 'xoxp-954077817267-1359935497254-1372369719381-9806cacb2f4d90831c217f4feb166611'; // OAuth Access Token
-const token = 'xoxb-954077817267-1368728135734-uN8nErNeSVCxJedRGRzxDGTO'; // Bot User OAuth Access Token
+// const token = 'xoxp-954077817267-1359935497254-1378716720243-b70bcb27e4200b15339b752cb7527155'; // OAuth Access Token
+const token = 'xoxb-954077817267-1368728135734-Mz90aRNaaWVZ140DSxXRJy0w'; // Bot User OAuth Access Token
 
 // Initialize
 const web = new WebClient(token);
@@ -101,6 +101,12 @@ export const slackBot = async (req: Request, res: Response) => {
         //
         // }
         let conversationId = 'C01BGFVPP4Y';
+            // const resultJoin = await web.conversations.join({
+            //     // The token you used to initialize your app is stored in the `context` object
+            //     token: token,
+            //     // The name of the conversation
+            //     channel: conversationId
+            // });
         let user = {
             'firstName': 'Anh',
             'lastName': 'Du Cong Hoang'
