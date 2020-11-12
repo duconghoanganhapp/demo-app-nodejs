@@ -52,6 +52,7 @@ var app = new Vue({
         height: 40,
         menus: ['Salad', 'Chicken', 'Fish'],
         showParagraph: false,
+        showParagraphRefs: false,
         sentence: 'First sentence'
     },
     computed: {
@@ -117,6 +118,15 @@ var app = new Vue({
             this.updateSentence('Why do we use it?');
             app2.sentence = 'Change app2 sentence!'
         },
+        showCheckRefsAction: function () {
+            this.showParagraphRefs = true;
+            this.updateSentence('Refs');
+            app2.sentence = 'Change sentence refs!';
+            console.log("------------START CONSOLE LOG------------");
+            console.log(this.$refs);
+            console.log("------------END CONSOLE LOG------------");
+            this.$refs.infoButton.innerText = "Show after using refs";
+        },
         updateSentence: function (text) {
             this.sentence = text;
         }
@@ -143,5 +153,7 @@ var app2 = new Vue({
     }
 });
 
+app2.outsideSentence = 'Test control watch';
+console.log(app2);
 app.mark = 'Mark is 9 points';
 console.log(app.mark);
